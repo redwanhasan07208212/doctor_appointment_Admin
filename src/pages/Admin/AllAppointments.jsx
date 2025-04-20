@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import { useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets.js";
 const AllAppointments = () => {
-  const { aToken, appointments, getAllAppointments } = useContext(AdminContext);
+  const { aToken, appointments, getAllAppointments, cancelAppointment } =
+    useContext(AdminContext);
   const { calculateAge, slotDateFormat } = useContext(AppContext);
   useEffect(() => {
     if (aToken) {
@@ -28,6 +28,7 @@ const AllAppointments = () => {
         </div>
         {appointments.map((item, index) => {
           console.log("DOB:", item.userData.dob); // Debugging: Log the dob value
+          console.log(item._id);
           return (
             <div
               className="flex flex-wrap justify-between max-sm:gap-2 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50"
@@ -59,6 +60,7 @@ const AllAppointments = () => {
                 <p className="text-red-400 text-xs font-medium">Cancelled</p>
               ) : (
                 <img
+                  onClick={() => cancelAppointment(item._id)}
                   className="w-10 cursor-pointer"
                   src={assets.cancel_icon}
                   alt=""
